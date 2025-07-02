@@ -1,0 +1,21 @@
+body{
+  background-color: #181C4B;
+  color: #fffffe;
+  
+}
+a{
+  color: #E12F52;
+}
+
+.btn-success{
+  background-color: #7f5af0;
+  color: #fffffe;
+}
+
+.btn-secondary{
+ background-color: #2cb67d;
+}
+
+.card{
+  background-color: #F5F9F9;
+}
