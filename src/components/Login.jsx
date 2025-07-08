@@ -70,7 +70,7 @@ const Login = () => {
             placeholder="Ingresá tu contraseña"
           />
         </div>
-        <div class="d-grid gap-2 col-12 mx-auto">
+        <div className="d-grid gap-2 col-12 mx-auto">
         <button type="submit" className="btn btn-success">
           Ingresar
         </button>

@@ -1,20 +1,41 @@
-// src/pages/EmployeeTasksForm.jsx
 import { useState } from "react";
 import { db, auth } from "../services/firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const tareasOpciones = ["Whatsapp", "Llamada", "Email", "Reunión"];
+const tareasOpciones = [
+  { value: "Whatsapp", label: "Whatsapp" },
+  { value: "Llamados", label: "Llamados" },
+  { value: "Control_Oficios", label: "Control Oficios" },
+  { value: "Consulta_Laboral", label: "Consulta Laboral" },
+  { value: "Orden", label: "Orden" },
+  { value: "Busqueda_de_domicilio", label: "Búsqueda de domicilio" },
+];
+
 const gestionOpciones = {
   Whatsapp: [
     "Alta de plan de pagos",
     "Contacto demandado",
     "Contacto empleador",
   ],
-  Llamada: ["Consulta", "Seguimiento", "Cierre"],
-  Email: ["Respuesta", "Envio info", "Confirmación"],
-  Reunión: ["Inicial", "Seguimiento", "Cierre"],
+  Llamados: [
+    "Contacto demandado",
+    "Alta plan de pagos",
+    "Contacto empleador",
+    "Consulta juzgado",
+  ],
+  Control_Oficios: ["Sin trabajo", "Embargo en cola", "Tiene Plata", "Reenvio oficio"],
+  Consulta_Laboral: ["Sin trabajo"],
+  Orden: [
+    "Orden Legajos",
+    "Armado Paquetes",
+    "Orden cedulas procesadas/sin procesar",
+    "Consulta ordenes de pago",
+    "Carga número de expedientes",
+    "Analisis Expediente",
+  ],
+  Busqueda_de_domicilio: ["Búsqueda de domicilio"],
 };
 
 const EmployeeTasksForm = () => {
@@ -31,38 +52,55 @@ const EmployeeTasksForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
-
-    if (name === "tarea") setForm((f) => ({ ...f, gestion: "" }));
+    if (name === "tarea") {
+      setForm((f) => ({ ...f, gestion: "" }));
+    }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!user) return alert("No estás autenticado");
-    if (!form.tarea || !form.gestion) return alert("Completa tarea y gestión");
+  e.preventDefault();
+  if (!user) return Swal.fire("Error", "No estás autenticado", "error");
+  if (!form.tarea || !form.gestion)
+    return Swal.fire("Atención", "Completa tarea y gestión", "warning");
 
-    try {
-      await addDoc(collection(db, "tareas"), {
-        userId: user.uid,
-        userName: user.displayName || user.email,
-        tarea: form.tarea,
-        gestion: form.gestion,
-        cantidad: Number(form.cantidad),
-        observaciones: form.observaciones,
-        timestamp: Timestamp.fromDate(new Date()),
-      });
+  try {
+    await addDoc(collection(db, "tareas"), {
+      userId: user.uid,
+      userName: user.displayName || user.email,
+      tarea: form.tarea,
+      gestion: form.gestion,
+      cantidad: Number(form.cantidad),
+      observaciones: form.observaciones,
+      timestamp: Timestamp.fromDate(new Date()),
+    });
 
-      alert("Tarea cargada!");
-      navigate("/tasks/history");
-    } catch (error) {
-      alert("Error cargando tarea: " + error.message);
-    }
-  };
+    // Mostrar alerta de éxito
+    Swal.fire({
+      title: "¡Tarea cargada!",
+      text: "La tarea fue registrada correctamente.",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+
+    // Limpiar formulario
+    setForm({
+      tarea: "",
+      gestion: "",
+      cantidad: 1,
+      observaciones: "",
+    });
+
+    // Scroll al top (opcional)
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (error) {
+    Swal.fire("Error", "No se pudo guardar la tarea: " + error.message, "error");
+  }
+};
 
   return (
     <div className="container mt-4">
       <h3>Agregar tarea</h3>
       <form onSubmit={handleSubmit}>
-        {/* Inputs como antes */}
         {/* Tarea */}
         <div className="mb-3">
           <label>Tarea</label>
@@ -75,8 +113,8 @@ const EmployeeTasksForm = () => {
           >
             <option value="">Selecciona una tarea</option>
             {tareasOpciones.map((t) => (
-              <option key={t} value={t}>
-                {t}
+              <option key={t.value} value={t.value}>
+                {t.label}
               </option>
             ))}
           </select>
@@ -95,7 +133,7 @@ const EmployeeTasksForm = () => {
           >
             <option value="">Selecciona gestión</option>
             {form.tarea &&
-              gestionOpciones[form.tarea].map((g) => (
+              (gestionOpciones[form.tarea] || []).map((g) => (
                 <option key={g} value={g}>
                   {g}
                 </option>
