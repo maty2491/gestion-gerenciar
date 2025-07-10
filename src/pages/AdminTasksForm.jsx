@@ -15,7 +15,7 @@ const tareasOpciones = [
 
 const gestionOpciones = {
   Whatsapp: [
-    "Alta de plan de pagos",
+    "Alta plan de pagos",
     "Contacto demandado",
     "Contacto empleador",
   ],

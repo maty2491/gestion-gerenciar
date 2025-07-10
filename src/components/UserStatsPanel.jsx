@@ -1,16 +1,39 @@
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db, auth } from "../services/firebase";
-import { FaWhatsapp, FaArrowUp, FaRegThumbsUp, FaFileAlt } from "react-icons/fa";
+import { FaWhatsapp, FaRegThumbsUp, FaFileAlt, FaPhoneAlt, FaHandshake, FaLayerGroup    } from "react-icons/fa";
+import { MdOutlineContentPasteSearch, MdAssuredWorkload, MdWorkHistory, MdOutlineAssuredWorkload, MdWorkOff, MdOutgoingMail      } from "react-icons/md";
+import { FaBoxesPacking, FaMoneyBill1Wave, FaMoneyBillTrendUp   } from "react-icons/fa6";
+import { GoLaw } from "react-icons/go";
+import { TbCalendarClock } from "react-icons/tb";
+import { GrTask } from "react-icons/gr";
+
 
 const gestionIconos = {
-  "Alta de plan de pagos": <FaArrowUp size={32} color="green" />,
+  "Alta de plan de pagos": <FaHandshake  size={32} color="#DBAA6E" />,
+  "Alta plan de pagos": <FaHandshake  size={32} color="#DBAA6E" />,
   "Contacto demandado": <FaRegThumbsUp size={32} color="orange" />,
   "Contacto empleador": <FaFileAlt size={32} color="blue" />,
+  "Armado Paquetes": <FaBoxesPacking size={32} color="#D48524" />,
+  "Consulta ordenes de pago": <FaMoneyBill1Wave size={32} color="#57C785" />,
+  "Contacto empleador": <MdOutlineAssuredWorkload size={32} color="green"/>,
+  "Consulta juzgado": <GoLaw  size={32} color="black"/>,
+  "Sin trabajo": <MdWorkOff size={32} color="black"/>,
+  "Embargo en cola": <TbCalendarClock size={32} color="#EB4444"/>,
+  "Tiene plata": <FaMoneyBillTrendUp size={32}/>,
+  "Reenvio oficio": <MdOutgoingMail size={32} color="#94BBE9"/>,
+  "Orden Legajos": <GrTask size={32} color="#FDBB2D"/>,
+  "Orden cedulas procesadas/sin procesar":<FaLayerGroup size={32} color="blue"/>
+
 };
 
 const tareaIconos = {
   Whatsapp: <FaWhatsapp size={32} color="#25D366" />,
+  Llamados: <FaPhoneAlt size={32} color="#25D366" />,
+  "Control_Oficios": <MdOutlineContentPasteSearch size={32} />,
+  "Consulta Laboral": <MdAssuredWorkload size={32}/>,
+  Orden: <MdWorkHistory size={32} color="#636E67"/>
+
 };
 
 const UserStatsPanel = () => {

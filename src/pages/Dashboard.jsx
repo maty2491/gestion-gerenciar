@@ -35,7 +35,7 @@ const Dashboard = () => {
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
       {/* Sidebar */}
-      <div className="bg-dark text-white p-3" style={{ width: "250px" }}>
+      <div className="p-3" style={{ width: "250px" }}>
         <h4>Panel de usuario</h4>
         <hr />
         {user && userData && (
@@ -68,7 +68,7 @@ const Dashboard = () => {
               )}
 
               <li className="nav-item mt-3">
-                <button className="btn btn-outline-light w-100" onClick={handleLogout}>
+                <button className="btn btn-success w-100" onClick={handleLogout}>
                   Cerrar sesión
                 </button>
               </li>
@@ -78,7 +78,7 @@ const Dashboard = () => {
       </div>
 
       {/* Contenido principal */}
-      <div className="flex-grow-1 p-4 bg-light">
+      <div className="flex-grow-1 p-4 bg-dark">
         <h2>Dashboard</h2>
         <hr />
         {userData?.role === "admin" ? <AdminPanel /> : <UserStatsPanel />}
