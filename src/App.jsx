@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./components/Register";
@@ -8,6 +7,9 @@ import EmployeeTasksForm from "./pages/EmployeeTasksForm";
 import EmployeeTasksHistory from "./pages/EmployeeTasksHistory";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminTasksForm from "./pages/AdminTasksForm";
+import TaskControlPanel from "./pages/TaskControlPanel";
+import UserStatsPanel from "./components/UserStatsPanel";
+import AdminPanel from "./components/AdminPanel";
 
 function App() {
   return (
@@ -15,8 +17,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/admin/tasks/new" element={<AdminTasksForm />} />
 
+        {/* Rutas protegidas que comparten Sidebar */}
         <Route
           path="/dashboard"
           element={
@@ -24,25 +26,62 @@ function App() {
               <Dashboard />
             </PrivateRoute>
           }
-        />
+        >
+          {/* Vista principal del dashboard, la lógica la maneja Dashboard.jsx */}
+          <Route index element={<div />} />
 
-        <Route
-          path="/tasks/new"
-          element={
-            <PrivateRoute>
-              <EmployeeTasksForm />
-            </PrivateRoute>
-          }
-        />
+          {/* Rutas del empleado */}
+          <Route
+            path="tasks/new"
+            element={
+              <PrivateRoute>
+                <EmployeeTasksForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="tasks/history"
+            element={
+              <PrivateRoute>
+                <EmployeeTasksHistory />
+              </PrivateRoute>
+            }
+          />
 
-        <Route
-          path="/tasks/history"
-          element={
-            <PrivateRoute>
-              <EmployeeTasksHistory />
-            </PrivateRoute>
-          }
-        />
+          {/* Rutas del admin */}
+          <Route
+            path="admin"
+            element={
+              <PrivateRoute>
+                <AdminPanel />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="admin/tasks/new"
+            element={
+              <PrivateRoute>
+                <AdminTasksForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="otras-operaciones"
+            element={
+              <PrivateRoute>
+                <TaskControlPanel />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="stats"
+            element={
+              <PrivateRoute>
+                <UserStatsPanel />
+              </PrivateRoute>
+            }
+          />
+        </Route>
       </Routes>
     </Router>
   );

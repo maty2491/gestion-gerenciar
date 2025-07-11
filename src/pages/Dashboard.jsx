@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../services/firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { useNavigate, Link } from "react-router-dom";
-import AdminPanel from "../components/AdminPanel";
-import UserStatsPanel from "../components/UserStatsPanel";
+import { useNavigate, Link, Outlet, useLocation } from "react-router-dom";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -28,6 +27,14 @@ const Dashboard = () => {
     return () => unsubscribe();
   }, [navigate]);
 
+  // 👉 Redirección automática al cargar /dashboard
+  useEffect(() => {
+  if (userData && location.pathname === "/dashboard") {
+    const destino = userData.role === "admin" ? "/dashboard/admin" : "/dashboard/stats";
+    navigate(destino);
+  }
+}, [location.pathname, userData, navigate]);
+
   const handleLogout = () => {
     signOut(auth).then(() => navigate("/"));
   };
@@ -36,25 +43,36 @@ const Dashboard = () => {
     <div className="d-flex" style={{ minHeight: "100vh" }}>
       {/* Sidebar */}
       <div className="p-3" style={{ width: "250px" }}>
-        <h4>Panel de usuario</h4>
+        <h4 className="text-white">Panel de usuario</h4>
         <hr />
         {user && userData && (
-          <>           
-            <p>Usuario: <strong>{userData.nombre}</strong></p>
-            <p style={{ fontSize: "0.9rem" }}>Email: {user.email}</p>
-            <p className="badge bg-secondary">{userData.role}</p>
+          <>
+            <p className="text-white">
+              Usuario: <strong>{userData.nombre}</strong>
+            </p>
+            <p style={{ fontSize: "0.9rem" }} className="text-white">
+              Email: {user.email}
+            </p>
+            <p className="badge bg-dark">{userData.role}</p>
             <hr />
             <ul className="nav flex-column mt-4">
               <li className="nav-item">
-                <Link to="/dashboard" className="nav-link text-white">Inicio</Link>
+                <Link to="/dashboard" className="nav-link text-white">
+                  Inicio
+                </Link>
               </li>
+
               {userData.role !== "admin" && (
                 <>
                   <li className="nav-item">
-                    <Link to="/tasks/new" className="nav-link text-white">Agregar tarea</Link>
+                    <Link to="/dashboard/tasks/new" className="nav-link text-white">
+                      Agregar tarea
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="/tasks/history" className="nav-link text-white">Mis tareas</Link>
+                    <Link to="/dashboard/tasks/history" className="nav-link text-white">
+                      Mis tareas
+                    </Link>
                   </li>
                 </>
               )}
@@ -62,7 +80,14 @@ const Dashboard = () => {
               {userData.role === "admin" && (
                 <>
                   <li className="nav-item">
-                    <Link to="/admin/tasks/new" className="nav-link text-white">Agregar tarea (Admin)</Link>
+                    <Link to="/dashboard/admin/tasks/new" className="nav-link text-white">
+                      Agregar tarea (Admin)
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/dashboard/otras-operaciones" className="nav-link text-white">
+                      Otras operaciones
+                    </Link>
                   </li>
                 </>
               )}
@@ -78,10 +103,10 @@ const Dashboard = () => {
       </div>
 
       {/* Contenido principal */}
-      <div className="flex-grow-1 p-4 bg-dark">
+      <div className="flex-grow-1 p-4 bg-dark text-white">
         <h2>Dashboard</h2>
         <hr />
-        {userData?.role === "admin" ? <AdminPanel /> : <UserStatsPanel />}
+        <Outlet />
       </div>
     </div>
   );

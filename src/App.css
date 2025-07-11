@@ -1,6 +1,6 @@
 body{
-  background-color: #181C4B;
-  color: #fffffe;
+  background-color: #2d3844;
+  color: white;
   
 }
 a{
@@ -10,6 +10,12 @@ a{
 .btn-success{
   background-color: #7f5af0;
   color: #fffffe;
+  border-color: #7f5af0;
+}
+.btn-success:hover{
+   background-color: #673aed;
+   color: #fffffe;
+   border-color: #4c18e6;
 }
 
 .btn-secondary{
@@ -17,5 +23,5 @@ a{
 }
 
 .card{
-  background-color: #F5F9F9;
+  background-color: #fdfdfd;
 }
