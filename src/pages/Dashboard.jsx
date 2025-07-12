@@ -3,6 +3,7 @@ import { auth, db } from "../services/firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate, Link, Outlet, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -17,7 +18,24 @@ const Dashboard = () => {
         const docRef = doc(db, "usuarios", currentUser.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setUserData(docSnap.data());
+          const data = docSnap.data();
+          setUserData(data);
+
+          if (
+            data.puedeCargar === false &&
+            data.vacacionesDesde &&
+            data.vacacionesHasta
+          ) {
+            Swal.fire({
+              icon: "info",
+              title: "Vacaciones activas",
+              html: `Estás de vacaciones desde <strong>${data.vacacionesDesde}</strong> hasta <strong>${data.vacacionesHasta}</strong>.`,
+              confirmButtonText: "Cerrar sesión",
+              allowOutsideClick: false,
+            }).then(() => {
+              signOut(auth).then(() => navigate("/"));
+            });
+          }
         }
       } else {
         navigate("/");
@@ -29,11 +47,12 @@ const Dashboard = () => {
 
   // 👉 Redirección automática al cargar /dashboard
   useEffect(() => {
-  if (userData && location.pathname === "/dashboard") {
-    const destino = userData.role === "admin" ? "/dashboard/admin" : "/dashboard/stats";
-    navigate(destino);
-  }
-}, [location.pathname, userData, navigate]);
+    if (userData && location.pathname === "/dashboard") {
+      const destino =
+        userData.role === "admin" ? "/dashboard/admin" : "/dashboard/stats";
+      navigate(destino);
+    }
+  }, [location.pathname, userData, navigate]);
 
   const handleLogout = () => {
     signOut(auth).then(() => navigate("/"));
@@ -65,12 +84,18 @@ const Dashboard = () => {
               {userData.role !== "admin" && (
                 <>
                   <li className="nav-item">
-                    <Link to="/dashboard/tasks/new" className="nav-link text-white">
+                    <Link
+                      to="/dashboard/tasks/new"
+                      className="nav-link text-white"
+                    >
                       Agregar tarea
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="/dashboard/tasks/history" className="nav-link text-white">
+                    <Link
+                      to="/dashboard/tasks/history"
+                      className="nav-link text-white"
+                    >
                       Mis tareas
                     </Link>
                   </li>
@@ -80,12 +105,18 @@ const Dashboard = () => {
               {userData.role === "admin" && (
                 <>
                   <li className="nav-item">
-                    <Link to="/dashboard/admin/tasks/new" className="nav-link text-white">
+                    <Link
+                      to="/dashboard/admin/tasks/new"
+                      className="nav-link text-white"
+                    >
                       Agregar tarea (Admin)
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="/dashboard/otras-operaciones" className="nav-link text-white">
+                    <Link
+                      to="/dashboard/otras-operaciones"
+                      className="nav-link text-white"
+                    >
                       Otras operaciones
                     </Link>
                   </li>
@@ -93,7 +124,10 @@ const Dashboard = () => {
               )}
 
               <li className="nav-item mt-3">
-                <button className="btn btn-success w-100" onClick={handleLogout}>
+                <button
+                  className="btn btn-success w-100"
+                  onClick={handleLogout}
+                >
                   Cerrar sesión
                 </button>
               </li>
@@ -113,4 +147,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
