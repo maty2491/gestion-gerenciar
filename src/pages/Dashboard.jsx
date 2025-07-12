@@ -4,6 +4,12 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate, Link, Outlet, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
+import sc from "../assets/sc.png"
+import { FaUserTie, FaHouse  } from "react-icons/fa6";
+import { GiGreekTemple } from "react-icons/gi";
+import { MdOutlineAddTask  } from "react-icons/md";
+import { BiTask } from "react-icons/bi";
+import { TiWarning } from "react-icons/ti";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -61,23 +67,23 @@ const Dashboard = () => {
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
       {/* Sidebar */}
-      <div className="p-3" style={{ width: "250px" }}>
+      <div className="p-3 " style={{ width: "250px" }}>
         <h4 className="text-white">Panel de usuario</h4>
         <hr />
         {user && userData && (
-          <>
-            <p className="text-white">
-              Usuario: <strong>{userData.nombre}</strong>
+          <>          
+            <p className="text-white m-3">
+              <FaUserTie size={20} className="me-3"/> <strong>{userData.nombre}</strong>
             </p>
-            <p style={{ fontSize: "0.9rem" }} className="text-white">
-              Email: {user.email}
-            </p>
-            <p className="badge bg-dark">{userData.role}</p>
+           
+            <p className="m-3">
+             <GiGreekTemple size={20} className="me-3"/> <span className="badge bg-dark ">{userData.role}</span>
+              </p>
             <hr />
             <ul className="nav flex-column mt-4">
               <li className="nav-item">
                 <Link to="/dashboard" className="nav-link text-white">
-                  Inicio
+                  <FaHouse size={20} className="mb-1 me-4"/>Inicio
                 </Link>
               </li>
 
@@ -87,15 +93,17 @@ const Dashboard = () => {
                     <Link
                       to="/dashboard/tasks/new"
                       className="nav-link text-white"
-                    >
+                    ><MdOutlineAddTask  size={20} className="mb-1 me-4"/>
                       Agregar tarea
                     </Link>
                   </li>
                   <li className="nav-item">
+                    
                     <Link
                       to="/dashboard/tasks/history"
                       className="nav-link text-white"
                     >
+                      <BiTask size={20} className="mb-1 me-4"/>
                       Mis tareas
                     </Link>
                   </li>
@@ -109,7 +117,8 @@ const Dashboard = () => {
                       to="/dashboard/admin/tasks/new"
                       className="nav-link text-white"
                     >
-                      Agregar tarea (Admin)
+                      <MdOutlineAddTask  size={20} className="mb-1 me-4"/>
+                      Agregar tarea
                     </Link>
                   </li>
                   <li className="nav-item">
@@ -117,6 +126,7 @@ const Dashboard = () => {
                       to="/dashboard/otras-operaciones"
                       className="nav-link text-white"
                     >
+                      <TiWarning size={20} className="mb-1 me-4"/>
                       Otras operaciones
                     </Link>
                   </li>
@@ -132,6 +142,7 @@ const Dashboard = () => {
                 </button>
               </li>
             </ul>
+            <img src={sc} className="img-fluid d-block mx-auto" alt="" />
           </>
         )}
       </div>
