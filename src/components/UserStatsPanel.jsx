@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db, auth } from "../services/firebase";
-import { FaWhatsapp, FaRegThumbsUp, FaFileAlt, FaPhoneAlt, FaHandshake, FaLayerGroup    } from "react-icons/fa";
+import { FaWhatsapp, FaRegThumbsUp, FaFileAlt, FaPhoneAlt, FaHandshake, FaLayerGroup, FaSearch     } from "react-icons/fa";
 import { MdOutlineContentPasteSearch, MdAssuredWorkload, MdWorkHistory, MdWorkOff, MdOutgoingMail      } from "react-icons/md";
-import { FaBoxesPacking, FaMoneyBill1Wave, FaMoneyBillTrendUp   } from "react-icons/fa6";
+import { FaBoxesPacking, FaMoneyBill1Wave, FaMoneyBillTrendUp, FaMoneyCheckDollar   } from "react-icons/fa6";
 import { GoLaw } from "react-icons/go";
 import { TbCalendarClock } from "react-icons/tb";
 import { GrTask } from "react-icons/gr";
 import { LiaIndustrySolid } from "react-icons/lia";
 import { RiSortNumberDesc } from "react-icons/ri";
-import { LuFileSearch } from "react-icons/lu";
+import { LuFileSearch, LuFileQuestion  } from "react-icons/lu";
 import { BsFillHouseAddFill, BsFillHouseFill  } from "react-icons/bs";
+import { GrDocumentConfig } from "react-icons/gr";
+import { PiHandDepositLight, PiHandDeposit } from "react-icons/pi";
+import { GiReceiveMoney } from "react-icons/gi";
+import { BiMailSend } from "react-icons/bi";
 
 const gestionIconos = {
   "Alta de plan de pagos": <FaHandshake  size={32} color="#DBAA6E" />,
@@ -29,7 +33,15 @@ const gestionIconos = {
   "Orden cedulas procesadas/sin procesar":<FaLayerGroup size={32} color="#99a7bfff"/>,
   "Carga número de expedientes": <RiSortNumberDesc size={32} color="#11111"/>,
   "Analisis Expediente": <LuFileSearch size={32} color="orange"/>,
-  "Búsqueda de domicilio": <BsFillHouseAddFill size={32} color="#08993eff"/>
+  "Búsqueda de domicilio": <BsFillHouseAddFill size={32} color="#08993eff"/>,
+  "Reserva de documental": <GrDocumentConfig size={32} color="#FDBB2D"/>,
+  "Consultar/Traer expediente": <LuFileQuestion  size={32}/>,
+  "Retiro de cedulas": <PiHandDepositLight size={32} />,
+  "Entrega de cedulas": <PiHandDeposit  size={32}/>,
+  "Búsqueda de oficios":<FaSearch  size={32}/>,
+  "Pago de tasas para stickers": <FaMoneyCheckDollar size={32}/>,
+  "Retiro de dinero": <GiReceiveMoney size={32}/>,
+  "Envio de sobres a sucursal": <BiMailSend  size={32}/>
 };
 
 const tareaIconos = {

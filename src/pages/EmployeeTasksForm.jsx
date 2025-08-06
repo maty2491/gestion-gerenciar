@@ -34,6 +34,13 @@ const gestionOpciones = {
     "Consulta ordenes de pago",
     "Carga número de expedientes",
     "Analisis Expediente",
+    "Reserva de documental",
+    "Consultar/Traer expediente",
+    "Retiro de cedulas",
+    "Entrega de cedulas",
+    "Búsqueda de cedulas",
+    "Pago de tasas para stickers",
+    "Envio de sobres a sucursal"
   ],
   Busqueda_de_domicilio: ["Búsqueda de domicilio"],
 };
