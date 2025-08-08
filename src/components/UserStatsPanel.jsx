@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db, auth } from "../services/firebase";
-import { FaWhatsapp, FaRegThumbsUp, FaFileAlt, FaPhoneAlt, FaHandshake, FaLayerGroup, FaSearch     } from "react-icons/fa";
-import { MdOutlineContentPasteSearch, MdAssuredWorkload, MdWorkHistory, MdWorkOff, MdOutgoingMail      } from "react-icons/md";
+import { FaWhatsapp, FaRegThumbsUp, FaFileAlt, FaPhoneAlt, FaHandshake, FaLayerGroup, FaSearch, FaEye      } from "react-icons/fa";
+import { MdOutlineContentPasteSearch, MdAssuredWorkload, MdWorkHistory, MdWorkOff, MdOutgoingMail , MdOutlineMoneyOffCsred       } from "react-icons/md";
 import { FaBoxesPacking, FaMoneyBill1Wave, FaMoneyBillTrendUp, FaMoneyCheckDollar   } from "react-icons/fa6";
 import { GoLaw } from "react-icons/go";
 import { TbCalendarClock } from "react-icons/tb";
@@ -28,7 +28,9 @@ const gestionIconos = {
   "Sin trabajo": <MdWorkOff size={32} color="black"/>,
   "Embargo en cola": <TbCalendarClock size={32} color="#EB4444"/>,
   "Tiene plata": <FaMoneyBillTrendUp size={32}/>,
+  "EP/EA Cancelado" : <MdOutlineMoneyOffCsred  size={32}/>,
   "Reenvio oficio": <MdOutgoingMail size={32} color="#94BBE9"/>,
+  "Control": <FaEye size={32}/> 
   "Orden Legajos": <GrTask size={32} color="#FDBB2D"/>,
   "Orden cedulas procesadas/sin procesar":<FaLayerGroup size={32} color="#99a7bfff"/>,
   "Carga número de expedientes": <RiSortNumberDesc size={32} color="#11111"/>,

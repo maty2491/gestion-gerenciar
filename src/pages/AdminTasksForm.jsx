@@ -29,7 +29,9 @@ const gestionOpciones = {
     "Sin trabajo",
     "Embargo en cola",
     "Tiene Plata",
+    "EP/EA Cancelado",
     "Reenvio oficio",
+    "Control"
   ],
   Consulta_Laboral: ["Sin trabajo"],
   Orden: [
