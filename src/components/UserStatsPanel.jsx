@@ -30,7 +30,7 @@ const gestionIconos = {
   "Tiene plata": <FaMoneyBillTrendUp size={32}/>,
   "EP/EA Cancelado" : <MdOutlineMoneyOffCsred  size={32}/>,
   "Reenvio oficio": <MdOutgoingMail size={32} color="#94BBE9"/>,
-  "Control": <FaEye size={32}/> 
+  "Control": <FaEye size={32}/>, 
   "Orden Legajos": <GrTask size={32} color="#FDBB2D"/>,
   "Orden cedulas procesadas/sin procesar":<FaLayerGroup size={32} color="#99a7bfff"/>,
   "Carga número de expedientes": <RiSortNumberDesc size={32} color="#11111"/>,
